@@ -276,9 +276,26 @@ scrollable is scrolled, the service emits the event in its scrolled observable.
   </thead>
   <tr class="docs-api-method-description-row">
     <td colspan="2" class="docs-api-method-description-cell">Returns an observable that emits an event whenever any of the registered Scrollable
-references (or window, document, or body) fire a scrolled event.
+references (or window, document, or body) fire a scrolled event. Can provide a time in ms
+to override the default &quot;throttle&quot; time.
 </td>
   </tr><thead>
+    <tr class="docs-api-method-parameters-header-row">
+      <th colspan="2" class="docs-api-method-parameters-header-cell">Parameters</th>
+    </tr>
+  </thead>
+  
+  <tr class="docs-api-method-parameter-row">
+    <td class="docs-api-method-parameter-cell">
+      <p class="docs-api-method-parameter-name">
+        auditTimeInMs<span class="docs-api-method-parameter-optional-marker">?</span></p>
+      <code class="docs-api-method-parameter-type">number</code>
+    </td>
+    <td class="docs-api-method-parameter-description-cell">
+      <p class="docs-api-method-parameter-description"></p>
+    </td>
+  </tr>
+  <thead>
     <tr class="docs-api-method-returns-header-row">
       <th colspan="2" class="docs-api-method-returns-header-cell">Returns</th>
     </tr>
@@ -1740,16 +1757,16 @@ than originating from the location of the click event.
     <code class="docs-api-property-type"></code>
   </td>
   <td class="docs-api-property-description">Whether click events will not trigger the ripple. It can still be triggered by manually
-calling start() and end().
+calling createRipple()
 </td>
 </tr>
 
 
     
       <tr class="docs-api-properties-row">
-  <td class="docs-api-properties-name-cell"><div class="docs-api-input-marker">@Input(<span class="docs-api-input-alias">&#39;mdRippleMaxRadius&#39;</span>)
+  <td class="docs-api-properties-name-cell"><div class="docs-api-input-marker">@Input(<span class="docs-api-input-alias">&#39;mdRippleRadius&#39;</span>)
         </div><p class="docs-api-property-name">
-      maxRadius
+      radius
     </p>
     <code class="docs-api-property-type"></code>
   </td>
@@ -1770,6 +1787,7 @@ bounding rectangle.
   </td>
   <td class="docs-api-property-description">If set, the normal duration of ripple animations is divided by this value. For example,
 setting it to 0.5 will cause the animations to take twice as long.
+A changed speedFactor will not modify the fade-out duration of the ripples.
 </td>
 </tr>
 
@@ -1783,32 +1801,6 @@ setting it to 0.5 will cause the animations to take twice as long.
     <code class="docs-api-property-type"></code>
   </td>
   <td class="docs-api-property-description">Custom color for ripples.
-</td>
-</tr>
-
-
-    
-      <tr class="docs-api-properties-row">
-  <td class="docs-api-properties-name-cell"><div class="docs-api-input-marker">@Input(<span class="docs-api-input-alias">&#39;mdRippleBackgroundColor&#39;</span>)
-        </div><p class="docs-api-property-name">
-      backgroundColor
-    </p>
-    <code class="docs-api-property-type"></code>
-  </td>
-  <td class="docs-api-property-description">Custom color for the ripple background.
-</td>
-</tr>
-
-
-    
-      <tr class="docs-api-properties-row">
-  <td class="docs-api-properties-name-cell"><div class="docs-api-input-marker">@Input(<span class="docs-api-input-alias">&#39;mdRippleFocused&#39;</span>)
-        </div><p class="docs-api-property-name">
-      focused
-    </p>
-    <code class="docs-api-property-type"></code>
-  </td>
-  <td class="docs-api-property-description">Whether the ripple background will be highlighted to indicated a focused state.
 </td>
 </tr>
 
@@ -1835,26 +1827,11 @@ setting it to 0.5 will cause the animations to take twice as long.
     <table class="docs-api-method-table">
   <thead>
     <tr class="docs-api-method-name-row">
-      <th colspan="2" class="docs-api-method-name-cell">start</th>
+      <th colspan="2" class="docs-api-method-name-cell">launch</th>
     </tr>
   </thead>
   <tr class="docs-api-method-description-row">
-    <td colspan="2" class="docs-api-method-description-cell">Responds to the start of a ripple animation trigger by fading the background in.
-</td>
-  </tr></table>
-
-
-  
-    <table class="docs-api-method-table">
-  <thead>
-    <tr class="docs-api-method-name-row">
-      <th colspan="2" class="docs-api-method-name-cell">end</th>
-    </tr>
-  </thead>
-  <tr class="docs-api-method-description-row">
-    <td colspan="2" class="docs-api-method-description-cell">Responds to the end of a ripple animation trigger by fading the background out, and creating a
-foreground ripple that expands from the event location (or from the center of the element if
-the &quot;centered&quot; property is set or forceCenter is true).
+    <td colspan="2" class="docs-api-method-description-cell">Launches a manual ripple at the specified position.
 </td>
   </tr><thead>
     <tr class="docs-api-method-parameters-header-row">
@@ -1865,7 +1842,7 @@ the &quot;centered&quot; property is set or forceCenter is true).
   <tr class="docs-api-method-parameter-row">
     <td class="docs-api-method-parameter-cell">
       <p class="docs-api-method-parameter-name">
-        left</p>
+        pageX</p>
       <code class="docs-api-method-parameter-type">number</code>
     </td>
     <td class="docs-api-method-parameter-description-cell">
@@ -1876,7 +1853,7 @@ the &quot;centered&quot; property is set or forceCenter is true).
   <tr class="docs-api-method-parameter-row">
     <td class="docs-api-method-parameter-cell">
       <p class="docs-api-method-parameter-name">
-        top</p>
+        pageY</p>
       <code class="docs-api-method-parameter-type">number</code>
     </td>
     <td class="docs-api-method-parameter-description-cell">
@@ -1887,8 +1864,8 @@ the &quot;centered&quot; property is set or forceCenter is true).
   <tr class="docs-api-method-parameter-row">
     <td class="docs-api-method-parameter-cell">
       <p class="docs-api-method-parameter-name">
-        forceCenter<span class="docs-api-method-parameter-optional-marker">?</span></p>
-      <code class="docs-api-method-parameter-type">any</code>
+        config<span class="docs-api-method-parameter-optional-marker">?</span></p>
+      <code class="docs-api-method-parameter-type">RippleConfig</code>
     </td>
     <td class="docs-api-method-parameter-description-cell">
       <p class="docs-api-method-parameter-description"></p>
